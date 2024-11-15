@@ -4,10 +4,7 @@
     "builds": [
         {
             "src": "public/index.php",
-            "use": "@vercel/php",
-            "config": {
-                "frameworkPreset": "other"
-            }
+            "use": "@vercel/php"
         }
     ]
 }
