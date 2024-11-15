@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\EntityModel as EntityModel;
 
-class Expense extends Model
+class Expense extends EntityModel
 {
     protected $connection = 'mongodb';
-    protected $collection = 'expenses'
+    protected $collection = 'expenses';
 }
