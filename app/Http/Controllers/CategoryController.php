@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Expense;
+use App\Models\Budget;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -30,7 +31,9 @@ class CategoryController extends Controller
             'categoryTitle' => 'required|string|max:255|min:3',
         ]);
 
-        $existingCategory = Category::where('categoryTitle', $validated['categoryTitle'])->first();
+        $existingCategory = Category::where('categoryTitle', $validated['categoryTitle'])
+                                    ->where('userId', $validated['userId'])
+                                    ->first();
 
         if ($existingCategory) {
             return response()->json([
@@ -50,7 +53,7 @@ class CategoryController extends Controller
     {
         $validated = $request->validate([
             'userId' => 'required|string',
-            'categoryTitle' => 'sometimes|string|max:255',
+            'categoryTitle' => 'sometimes|string|max:255|min:3',
         ]);
 
         $categoryTitle = trim($categoryTitle);
@@ -68,6 +71,12 @@ class CategoryController extends Controller
 
         if (isset($validated['categoryTitle'])) {
             Expense::where('categoryTitle', $categoryTitle)
+                ->where('userId', $validated['userId'])
+                ->update(['categoryTitle' => $validated['categoryTitle']]);
+        }
+
+        if (isset($validated['categoryTitle'])) {
+            Budget::where('categoryTitle', $categoryTitle)
                 ->where('userId', $validated['userId'])
                 ->update(['categoryTitle' => $validated['categoryTitle']]);
         }
@@ -97,6 +106,10 @@ class CategoryController extends Controller
         $category->delete();
 
         Expense::where('categoryTitle', $categoryTitle)
+            ->where('userId', $validated['userId'])
+            ->update(['categoryTitle' => 'No Category']);
+
+        Budget::where('categoryTitle', $categoryTitle)
             ->where('userId', $validated['userId'])
             ->update(['categoryTitle' => 'No Category']);
 

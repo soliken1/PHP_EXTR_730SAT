@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\BudgetController;
 
 //Routes for Credentials
 //All Users (No Conditional Parameters)
@@ -38,3 +39,9 @@ Route::post('/addCategory', [CategoryController::class, 'addUserCategory']);
 Route::patch('/updateCategory/{categoryTitle}', [CategoryController::class, 'updateUserCategory']);
 //Delete User's Expenses (Relies on UserId and CategoryName)
 Route::delete('deleteCategory/{categoryTitle}', [CategoryController::class, 'deleteUserCategory']);
+
+//Routes for Budget
+//All Budget (No Conditional Parameters)
+Route::get('/budget', [BudgetController::class, 'getBudget']);
+//Add User Budget (Refer to Budget Model for Body Parameters)
+Route::post('/addBudget', [BudgetController::class, 'addBudget']);

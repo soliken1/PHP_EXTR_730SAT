@@ -33,7 +33,9 @@ class ExpenseController extends Controller
             'date' => 'required|date_format:Y-m-d H:i:s',
         ]);
 
-        $existingExpense = Expense::where('expenseName', $validated['expenseName'])->first();
+        $existingExpense = Expense::where('expenseName', $validated['expenseName'])
+                                    ->where('userId', $validated['userId'])
+                                    ->first();
 
         if ($existingExpense) {
             return response()->json([
