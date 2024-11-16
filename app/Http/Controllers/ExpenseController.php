@@ -33,6 +33,14 @@ class ExpenseController extends Controller
             'date' => 'required|date_format:Y-m-d H:i:s',
         ]);
 
+        $existingExpense = Expense::where('expenseName', $validated['expenseName'])->first();
+
+        if ($existingExpense) {
+            return response()->json([
+                'message' => 'Expense already exists.',
+            ], 409);
+        }
+
         $validated['amount'] = $validated['amount'] ?? 0.00;
         if (empty($validated['categoryTitle'])) {
             $validated['categoryTitle'] = 'No Category';

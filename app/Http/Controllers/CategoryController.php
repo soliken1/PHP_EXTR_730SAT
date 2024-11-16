@@ -30,6 +30,14 @@ class CategoryController extends Controller
             'categoryTitle' => 'required|string|max:255|min:3',
         ]);
 
+        $existingCategory = Category::where('categoryTitle', $validated['categoryTitle'])->first();
+
+        if ($existingCategory) {
+            return response()->json([
+                'message' => 'Category already exists.',
+            ], 409);
+        }
+
         $category = Category::create($validated);
 
         return response()->json([
