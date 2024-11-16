@@ -43,5 +43,12 @@ Route::delete('deleteCategory/{categoryTitle}', [CategoryController::class, 'del
 //Routes for Budget
 //All Budget (No Conditional Parameters)
 Route::get('/budget', [BudgetController::class, 'getBudget']);
+//Get User's Budget (1 Parameter of userId)
+Route::post('/userBudgets', [BudgetController::class, 'getUserBudget']);
 //Add User Budget (Refer to Budget Model for Body Parameters)
 Route::post('/addBudget', [BudgetController::class, 'addBudget']);
+//Update User's Budget (Relies on UserId and CategoryName)
+Route::patch('/updateBudget/{categoryTitle}', [BudgetController::class, 'updateUserBudget']);
+//Delete User's Expenses (Relies on UserId and CategoryName)
+Route::delete('deleteBudget/{categoryTitle}', [BudgetController::class, 'deleteUserBudget']);
+

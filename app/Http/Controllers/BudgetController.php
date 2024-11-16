@@ -13,6 +13,16 @@ class BudgetController extends Controller
         return response()->json($expense);
     }
 
+    public function getUserBudget(Request $request) {
+        $validated = $request->validate([
+            'userId' => 'required|string'
+        ]);
+    
+        $budget = Budget::where('userId', $validated['userId'])->get();
+    
+        return response()->json($budget);
+    }
+
     public function addBudget(Request $request) {
         $validated = $request->validate([
             'userId' => 'required|string',
@@ -39,4 +49,49 @@ class BudgetController extends Controller
             'expense' => $budget,
         ], 201);
     }
+
+    public function updateUserBudget(Request $request, $categoryTitle) {
+        $validated = $request->validate([
+            'userId' => 'required|string',
+            'budget' => 'sometimes|numeric|min:0',
+        ]);
+
+        $categoryTitle = trim($categoryTitle);
+
+        $budget = Budget::where('categoryTitle', $categoryTitle)
+            ->where('userId', $validated['userId'])
+            ->first();
+
+        if (!$budget) {
+            return response()->json(['message' => 'Budget not Found.'], 404);
+        }
+
+        $budget->fill($validated);
+        $budget->save();
+
+        return response()->json([
+            'message' => 'Budget updated successfully',
+            'budget' => $budget,
+        ], 200);
+    }
+
+    public function deleteUserBudget(Request $request, $categoryTitle) {
+        $validated = $request->validate([
+            'userId' => 'required|string',
+        ]);
+    
+        $categoryTitle = trim($categoryTitle);
+    
+        $budget = Budget::where('categoryTitle', $categoryTitle)
+                          ->where('userId', $validated['userId'])
+                          ->first();
+    
+        if (!$budget) {
+            return response()->json(['message' => 'Budget not Found.'], 404);
+        }
+    
+        $budget->delete();
+    
+        return response()->json(['message' => 'Budget deleted successfully.'], 200);
+    }    
 }
