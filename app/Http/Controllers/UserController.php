@@ -20,19 +20,20 @@ class UserController extends Controller
     public function register(Request $request)
     {
         $validated = $request->validate([
-            'username' => 'required|string|max:255',
+            'username' => 'required|string|unique:users,username|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
-            'verified' => 'required|boolean',
+            'verified' => 'sometimes|boolean',
         ]);
-
+        
+        $verifiedStatus = $validated['verified'] = $validated['verified'] ?? false;
         $hashedPassword = Hash::make($validated['password']);
 
         $user = User::create([
             'username' => $validated['username'],
             'email' => $validated['email'],
             'password' => $hashedPassword,
-            'verified' => false,
+            'verified' => $verifiedStatus,
         ]);
 
         $verificationUrl = URL::temporarySignedRoute(

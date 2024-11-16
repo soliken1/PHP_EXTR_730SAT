@@ -22,7 +22,7 @@ Route::get('/expenses', [ExpenseController::class, 'getExpenses']);
 Route::post('/userExpenses', [ExpenseController::class, 'getUserExpenses']);
 //Add User Expense (Refer to Expense Model for Body Parameters)
 Route::post('/addExpense', [ExpenseController::class, 'addUserExpense']);
-//Update User's Expenses (Relies on UserId and ExpenseId)
+//Update User's Expenses (Relies on UserId and ExpenseName)
 Route::patch('/updateExpense/{expenseName}', [ExpenseController::class, 'updateUserExpense']);
 //Delete User's Expenses (Relies on UserId and Expense Name)
 Route::delete('deleteExpense/{expenseName}', [ExpenseController::class, 'deleteUserExpense']);
@@ -32,3 +32,9 @@ Route::delete('deleteExpense/{expenseName}', [ExpenseController::class, 'deleteU
 Route::get('/categories', [CategoryController::class, 'getCategories']);
 //Get User's Categories (1 Parameter of userId)
 Route::post('/userCategories', [CategoryController::class, 'getUserCategories']);
+//Add User Category (Refer to Category Model for Body Parameters)
+Route::post('/addCategory', [ExpenseController::class, 'addUserCategory']);
+//Update User's Category (Relies on UserId and CategoryName)
+Route::patch('/updateCategory/{categoryName}', [ExpenseController::class, 'updateUserCategory']);
+//Delete User's Expenses (Relies on UserId and CategoryName)
+Route::delete('deleteCategory/{categoryName}', [ExpenseController::class, 'deleteUserCategory']);
