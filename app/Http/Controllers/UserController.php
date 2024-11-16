@@ -20,13 +20,21 @@ class UserController extends Controller
     public function register(Request $request)
     {
         $validated = $request->validate([
-            'username' => 'required|string|unique:users,username|max:255',
-            'email' => 'required|email|unique:users,email',
+            'username' => 'required|string|max:255',
+            'email' => 'required|email',
             'password' => 'required|string|min:6',
             'verified' => 'sometimes|boolean',
         ]);
-        
-        $verifiedStatus = $validated['verified'] = $validated['verified'] ?? false;
+
+        $existingUser = User::where('username', $validated['username'])->orWhere('email', $validated['email'])->first();
+
+        if ($existingUser) {
+            return response()->json([
+                'message' => 'Username or email already exists.',
+            ], 409);
+        }
+
+        $verifiedStatus = $validated['verified'] ?? false;
         $hashedPassword = Hash::make($validated['password']);
 
         $user = User::create([

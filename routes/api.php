@@ -33,8 +33,8 @@ Route::get('/categories', [CategoryController::class, 'getCategories']);
 //Get User's Categories (1 Parameter of userId)
 Route::post('/userCategories', [CategoryController::class, 'getUserCategories']);
 //Add User Category (Refer to Category Model for Body Parameters)
-Route::post('/addCategory', [ExpenseController::class, 'addUserCategory']);
+Route::post('/addCategory', [CategoryController::class, 'addUserCategory']);
 //Update User's Category (Relies on UserId and CategoryName)
-Route::patch('/updateCategory/{categoryName}', [ExpenseController::class, 'updateUserCategory']);
+Route::patch('/updateCategory/{categoryTitle}', [CategoryController::class, 'updateUserCategory']);
 //Delete User's Expenses (Relies on UserId and CategoryName)
-Route::delete('deleteCategory/{categoryName}', [ExpenseController::class, 'deleteUserCategory']);
+Route::delete('deleteCategory/{categoryTitle}', [CategoryController::class, 'deleteUserCategory']);
