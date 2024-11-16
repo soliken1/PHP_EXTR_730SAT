@@ -20,9 +20,15 @@ Route::get('/verify-email/{id}', [UserController::class, 'verifyEmail'])
 Route::get('/expenses', [ExpenseController::class, 'getExpenses']);
 //Get User's Expense (1 Parameter of userId)
 Route::post('/userExpenses', [ExpenseController::class, 'getUserExpenses']);
+//Add User Expense (Refer to Expense Model for Body Parameters)
+Route::post('/addExpense', [ExpenseController::class, 'addUserExpense']);
+//Update User's Expenses (Relies on UserId and ExpenseId)
+Route::patch('/updateExpense/{expenseName}', [ExpenseController::class, 'updateUserExpense']);
+//Delete User's Expenses (Relies on UserId and Expense Name)
+Route::delete('deleteExpense/{expenseName}', [ExpenseController::class, 'deleteUserExpense']);
 
 //Routes for Category
  //All Categories (No Conditional Parameters)
 Route::get('/categories', [CategoryController::class, 'getCategories']);
-//Get User's Expenses (1 Parameter of userId)
+//Get User's Categories (1 Parameter of userId)
 Route::post('/userCategories', [CategoryController::class, 'getUserCategories']);
