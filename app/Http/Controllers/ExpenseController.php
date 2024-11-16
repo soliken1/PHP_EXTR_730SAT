@@ -9,7 +9,7 @@ class ExpenseController extends Controller
 {
     public function getExpenses()
     {
-        $users = DB::connection('mongodb')->table('expenses')->get();
-        return response()->json($users);
+        $expense = Expense::all();
+        return response()->json($expense);
     }
 }

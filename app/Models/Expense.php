@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\EntityModel as EntityModel;
+use MongoDB\Laravel\Eloquent\Model;
 
-class Expense extends EntityModel
+class Expense extends Model
 {
     protected $connection = 'mongodb';
-    protected $collection = 'expenses';
+    protected $table = 'expenses';
 }
