@@ -9,8 +9,16 @@ use App\Http\Controllers\BudgetController;
 //Routes for Credentials
 //All Users (No Conditional Parameters)
 Route::get('/users', [UserController::class, 'getUsers']);
+//Login Users (Refer to User Model For Body Parameters) 
+Route::post('/login', [UserController::class, 'login']);
 //Register Users (Refer to User Model For Body Parameters)
 Route::post('/register', [UserController::class, 'register']);
+
+//Password Reset Routes
+Route::post('/password/forgot', [UserController::class, 'forgotPassword']);
+Route::post('/password/reset/{token}', [UserController::class, 'resetPassword']);
+
+
 //Email Verification Route For Users
 Route::get('/verify-email/{id}', [UserController::class, 'verifyEmail'])
     ->name('verification.verify')

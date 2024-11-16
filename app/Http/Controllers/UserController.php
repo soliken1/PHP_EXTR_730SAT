@@ -7,15 +7,44 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\VerifyEmail;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\URL;
-
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
 {   public function getUsers()
     {
         $users = User::all();
         return response()->json($users);
-    }    
+    }
+
+    public function login(Request $request) {
+        $validated = $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+    
+        $user = User::where('username', $validated['username'])->first();
+    
+        if (!$user) {
+            return response()->json(['message' => 'User not found.'], 404);
+        }
+    
+        if (!Hash::check($validated['password'], $user->password)) {
+            return response()->json(['message' => 'Incorrect password.'], 401);
+        }
+    
+        if (!$user->verified) {
+            return response()->json(['message' => 'Your email is not verified. Please verify your email to log in.'], 403);
+        }
+        
+        return response()->json([
+            'message' => 'Login successful.',
+            'user' => $user,   
+        ], 200);
+    }
 
     public function register(Request $request)
     {
@@ -57,6 +86,74 @@ class UserController extends Controller
             'user_id' => $user->_id,
         ], 201);
     }
+
+    public function forgotPassword(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email',
+        ]);
+    
+        $user = User::where('email', $validated['email'])->first();
+    
+        if (!$user) {
+            return response()->json(['message' => 'No user found with this email address.'], 404);
+        }
+    
+        $token = Str::random(60);
+    
+        DB::table('password_resets')->updateOrInsert(
+            ['email' => $user->email],
+            [
+                'token' => Hash::make($token),
+                'created_at' => now(),
+            ]
+        );
+    
+        // Create reset link for the API endpoint
+        $resetUrl = url("/api/password/reset/{$token}?email={$user->email}");
+    
+        // Send email
+        Mail::raw("Click this link to reset your password: {$resetUrl}", function ($message) use ($user) {
+            $message->to($user->email)->subject('Password Reset Request');
+        });
+    
+        return response()->json(['message' => 'Password reset link sent to your email.'], 200);
+    }
+    
+    public function resetPassword(Request $request, $token)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $resetRecord = DB::table('password_resets')
+                        ->where('email', $validated['email'])
+                        ->first();
+
+        if (!$resetRecord) {
+            return response()->json(['message' => 'Invalid token or email.'], 400);
+        }
+
+        if (!Hash::check($token, $resetRecord->token)) {
+            return response()->json(['message' => 'Invalid token.'], 400);
+        }
+
+        // Update user password
+        $user = User::where('email', $validated['email'])->first();
+        if ($user) {
+            $user->password = Hash::make($validated['password']);
+            $user->save();
+
+            // Delete reset record
+            DB::table('password_resets')->where('email', $validated['email'])->delete();
+
+            return response()->json(['message' => 'Password reset successfully.'], 200);
+        }
+
+        return response()->json(['message' => 'User not found.'], 404);
+    }
+
 
     public function verifyEmail(Request $request, $id)
     {
