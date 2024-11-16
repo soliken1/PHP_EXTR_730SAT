@@ -27,7 +27,7 @@ class VerifyEmail extends Notification
         return (new MailMessage)
             ->subject('Verify Your Email Address')
             ->greeting('Hello ' . $notifiable->username . '!')
-            ->line('Please click the button below to verify your email address.')
+            ->line('Please Click The Button Below To Verify Your Account.')
             ->action('Verify Email', $this->verificationUrl)
             ->line('If you did not create an account, no further action is required.');
     }

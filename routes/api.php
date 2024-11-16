@@ -11,6 +11,8 @@ Route::post('/register', [UserController::class, 'register']);
 
 Route::get('/expenses', [ExpenseController::class, 'getExpenses']);
 
+Route::post('/userExpenses', [ExpenseController::class, 'getUserExpenses']);
+
 Route::get('/verify-email/{id}', [UserController::class, 'verifyEmail'])
     ->name('verification.verify')
     ->middleware('signed');

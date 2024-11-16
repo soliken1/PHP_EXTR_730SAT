@@ -19,8 +19,6 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
-        \Log::info('Register endpoint hit', ['data' => $request->all()]);
-
         $validated = $request->validate([
             'username' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',

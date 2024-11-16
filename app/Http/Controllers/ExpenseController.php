@@ -12,4 +12,15 @@ class ExpenseController extends Controller
         $expense = Expense::all();
         return response()->json($expense);
     }
+
+    public function getUserExpenses(Request $request) {
+        $validated = $request->validate([
+            'userId' => 'required|string'
+        ]);
+    
+        $expenses = Expense::where('userId', $validated['userId'])->get();
+    
+        return response()->json($expenses);
+    }
+    
 }

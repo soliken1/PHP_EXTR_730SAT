@@ -7,13 +7,9 @@ use MongoDB\Laravel\Eloquent\Model;
 class Expense extends Model
 {
     protected $connection = 'mongodb';
-    protected $table = 'expenses';
+    protected $table = 'category';
     protected $fillable = [
+        'categoryTitle',
         'userId',
-        'categoryId',
-        'expenseName',
-        'expenseDescription',
-        'amount',
-        'date',
     ];
 }
