@@ -77,4 +77,29 @@ class CategoryController extends Controller
             'category' => $category,
         ], 200);
     }
+
+    public function deleteUserCategory(Request $request, $categoryTitle)
+    {
+        $validated = $request->validate([
+            'userId' => 'required|string',
+        ]);
+
+        $categoryTitle = trim($categoryTitle);
+
+        $category = Category::where('categoryTitle', $categoryTitle)
+                            ->where('userId', $validated['userId'])
+                            ->first();
+
+        if (!$category) {
+            return response()->json(['message' => 'Category not Found.'], 404);
+        }
+
+        $category->delete();
+
+        Expense::where('categoryTitle', $categoryTitle)
+            ->where('userId', $validated['userId'])
+            ->update(['categoryTitle' => 'No Category']);
+
+        return response()->json(['message' => 'Category deleted and associated expenses updated successfully.'], 200);
+    }
 }
