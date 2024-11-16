@@ -18,7 +18,6 @@ Route::post('/register', [UserController::class, 'register']);
 Route::post('/password/forgot', [UserController::class, 'forgotPassword']);
 Route::post('/password/reset/{token}', [UserController::class, 'resetPassword']);
 
-
 //Email Verification Route For Users
 Route::get('/verify-email/{id}', [UserController::class, 'verifyEmail'])
     ->name('verification.verify')

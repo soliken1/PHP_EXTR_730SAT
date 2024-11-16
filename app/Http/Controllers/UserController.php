@@ -111,13 +111,9 @@ class UserController extends Controller
     
         // Create reset link for the API endpoint
         $resetUrl = url("/api/password/reset/{$token}?email={$user->email}");
+
     
-        // Send email
-        Mail::raw("Click this link to reset your password: {$resetUrl}", function ($message) use ($user) {
-            $message->to($user->email)->subject('Password Reset Request');
-        });
-    
-        return response()->json(['message' => 'Password reset link sent to your email.'], 200);
+        return response()->json(['resetRoute' => $resetUrl], 200);
     }
     
     public function resetPassword(Request $request, $token)
