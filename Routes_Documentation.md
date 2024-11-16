@@ -1,10 +1,10 @@
 # Routes Overview
 
-## Users
-
 ## Base URL
 
 -   https://extr-fri730-704ba95d817c.herokuapp.com/
+
+## Credentials Routing
 
 ### GET /users
 
