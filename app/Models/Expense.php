@@ -13,6 +13,7 @@ class Expense extends Model
         'categoryId',
         'expenseName',
         'expenseDescription',
+        'categoryTitle',
         'amount',
         'date',
     ];
