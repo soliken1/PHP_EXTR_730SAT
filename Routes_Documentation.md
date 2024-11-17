@@ -4,6 +4,24 @@
 
 -   https://extr-fri730-704ba95d817c.herokuapp.com/api/
 
+## Status Codes
+
+-   **Success**:
+    ```json
+    {
+        "200": "Successfully Created or Updated",
+        "201": "Successfully Created or Updated With Its Response"
+    }
+    ```
+-   **Failed**:
+    ```json
+    {
+        "400": "Invalid Request Inside of Requested Body",
+        "404": "Request Was Not Found",
+        "409": "Request Is Already Existing In The Database"
+    }
+    ```
+
 ## Credentials Routing
 
 ### GET /users
