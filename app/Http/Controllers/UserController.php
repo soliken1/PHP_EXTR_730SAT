@@ -109,7 +109,7 @@ class UserController extends Controller
             ]
         );
 
-        $resetUrl = url("https://extrcust.vercel.app/resetPassword/{$token}/{$email}");
+        $resetUrl = url("https://extrcust.vercel.app/resetPassword/{$token}/{$validated['email']}");
 
         Mail::raw("Click this link to reset your password: {$resetUrl}", function ($message) use ($user) {
             $message->to($user->email)->subject('Password Reset Request');
