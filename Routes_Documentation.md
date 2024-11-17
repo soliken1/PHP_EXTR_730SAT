@@ -147,7 +147,7 @@
     ```
 -   **Response**:
 
-    ```json
+    ```
     When clicking the verification this will be redirected and process that response as for success this is returned else the failed status is displayed 'https://extrcust.vercel.app/verifyStatus/success or /failed'
     ```
 
@@ -365,7 +365,7 @@
 
 ### POST /userCategories
 
--   **Description**: Returns the categories of the specified usuer being requested in the body, this will return an array of category objects
+-   **Description**: Returns the categories of the specified user being requested in the body, this will return an array of category objects
 -   **Request Body**:
 
     ```json
@@ -601,7 +601,6 @@
     {
         "message": "Budget deleted successfully."
     }
-    `
     ```
 
 ## Template
