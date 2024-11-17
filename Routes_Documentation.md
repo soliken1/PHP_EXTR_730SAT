@@ -467,6 +467,145 @@
     }
     ```
 
+## Budget Routing
+
+### GET /budget
+
+-   **Description**: Returns an array of budgets objects without any restrictive parameters
+-   **Request Body**:
+
+    ```json
+    {}
+    ```
+
+-   **Response**:
+
+    ```json
+    [
+        {
+            "userId": "673812640e128833aa0143a2",
+            "categoryTitle": "Test Expense",
+            "budget": 10.22,
+            "updated_at": "2024-11-16T13:27:14.014000Z",
+            "created_at": "2024-11-16T13:27:14.014000Z",
+            "id": "67389db2e747f9b18802b9a7"
+        },
+        {
+            "userId": "67388c788b01de83690a6b53",
+            "categoryTitle": "No Category",
+            "budget": 10.22,
+            "updated_at": "2024-11-17T07:24:03.701000Z",
+            "created_at": "2024-11-16T13:29:53.249000Z",
+            "id": "67389e51e747f9b18802b9a8"
+        }
+    ]
+    ```
+
+### POST /userBudgets
+
+-   **Description**: Returns an array of budgets objects from the specified userId.
+-   **Request Body**:
+
+    ```json
+    {
+        "userId": "673812640e128833aa0143a2"
+    }
+    ```
+
+-   **Response**:
+
+    ```json
+    [
+        {
+            "userId": "673812640e128833aa0143a2",
+            "categoryTitle": "Test Expense",
+            "budget": 10.22,
+            "updated_at": "2024-11-16T13:27:14.014000Z",
+            "created_at": "2024-11-16T13:27:14.014000Z",
+            "id": "67389db2e747f9b18802b9a7"
+        }
+    ]
+    ```
+
+### POST /addBudget
+
+-   **Description**: Adds a budget to a specified defined category to the specific userId.
+-   **Request Body**:
+
+    ```json
+    {
+        "userId": "67388c788b01de83690a6b53",
+        "categoryTitle": "Bills Expense",
+        "budget": 100000
+    }
+    ```
+
+-   **Response**:
+
+    ```json
+    {
+        "message": "Budget added successfully",
+        "expense": {
+            "userId": "67388c788b01de83690a6b53",
+            "categoryTitle": "Bills Expense",
+            "budget": 100000,
+            "updated_at": "2024-11-17T07:34:29.281000Z",
+            "created_at": "2024-11-17T07:34:29.281000Z",
+            "id": "67399c85676a6649dc0c68a3"
+        }
+    }
+    ```
+
+### PATCH /updateBudget/{categoryTitle}
+
+-   **Description**: The endpoint for updating the budget of a specific category to the specific defined user in the request body. Carefully craft the URL in order to access this endpoint. Only the budget is updated and excess fields are ignored.
+-   **Sample URL Craft**: https://extr-fri730-704ba95d817c.herokuapp.com/api/updateBudget/Bills%20Expense
+-   **Request Body**:
+
+    ```json
+    {
+        "userId": "67388c788b01de83690a6b53",
+        "budget": 100.23
+    }
+    ```
+
+-   **Response**:
+
+    ```json
+    {
+        "message": "Budget updated successfully",
+        "budget": {
+            "userId": "67388c788b01de83690a6b53",
+            "categoryTitle": "Bills Expense",
+            "budget": 100.23,
+            "updated_at": "2024-11-17T07:37:11.844000Z",
+            "created_at": "2024-11-17T07:34:29.281000Z",
+            "id": "67399c85676a6649dc0c68a3"
+        }
+    }
+    ```
+
+### DELETE /deleteBudget/{categoryTitle}
+
+-   **Description**: Deletes a budget from the specific category, that is referred to the userId. This also needs to be crafted into a dynamic URL, accepting the route below.
+-   **Sample URL Craft**: https://extr-fri730-704ba95d817c.herokuapp.com/api/deleteBudget/Bills%20Expense
+-   **Request Body**:
+
+    ```json
+    {
+        "userId": "67388c788b01de83690a6b53"
+    }
+    ```
+
+-   **Response**:
+
+    ```json
+    {
+        "message": "Budget deleted successfully."
+    }
+    `
+    ```
+
 ## Template
 
 ### HTTPRequest
