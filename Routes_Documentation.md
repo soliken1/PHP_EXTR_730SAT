@@ -2,13 +2,13 @@
 
 ## Base URL
 
--   https://extr-fri730-704ba95d817c.herokuapp.com/
+-   https://extr-fri730-704ba95d817c.herokuapp.com/api/
 
 ## Credentials Routing
 
 ### GET /users
 
--   **Description**: Endpoint for GETTING ALL Users
+-   **Description**: Endpoint for GETTING ALL Users, Returns with an Array of User Objects
 -   **Request Body**:
 
     ```json
@@ -133,4 +133,208 @@
     {
         "verified": true
     }
+    ```
+
+## Expenses Routing
+
+### GET /expenses
+
+-   **Description**: Endpoint To Get All Expenses with No Constraints or Parameters Returning an Array of All Expenses
+-   **Request Body**:
+
+    ```json
+    {}
+    ```
+
+-   **Response**:
+
+    ```json
+    [
+        {
+            "expenseName": "Ice Cream",
+            "expenseDescription": "Belgian Ice Cream",
+            "userId": "673812640e128833aa0143a2",
+            "amount": 750.5,
+            "date": "2024-11-17 15:00:00",
+            "updated_at": "2024-11-16T13:01:11.605000Z",
+            "created_at": "2024-11-16T10:41:45.450000Z",
+            "categoryTitle": "No Category",
+            "id": "673876e9e747f9b18802b9a2"
+        },
+        {
+            "expenseName": "Pares",
+            "expenseDescription": "Large Beef Pares",
+            "userId": "673812640e128833aa0143a2",
+            "amount": 100.24,
+            "date": "2024-11-17 15:00:00",
+            "categoryTitle": "No Category",
+            "updated_at": "2024-11-16T13:01:11.605000Z",
+            "created_at": "2024-11-16T11:07:06.436000Z",
+            "id": "67387cdae747f9b18802b9a3"
+        }
+    ]
+    ```
+
+### POST /userExpenses/
+
+-   **Description**: An endpoint for accessing user's expenses with the constraint or requiring user's Id returning an Array of Expenses object from the user.
+-   **Request Body**:
+
+    ```json
+    {
+        "userId": "673812640e128833aa0143a2"
+    }
+    ```
+
+-   **Response**:
+
+    ```json
+    [
+        {
+            "expenseName": "Ice Cream",
+            "expenseDescription": "Belgian Ice Cream",
+            "userId": "673812640e128833aa0143a2",
+            "amount": 750.5,
+            "date": "2024-11-17 15:00:00",
+            "updated_at": "2024-11-16T13:01:11.605000Z",
+            "created_at": "2024-11-16T10:41:45.450000Z",
+            "categoryTitle": "No Category",
+            "id": "673876e9e747f9b18802b9a2"
+        }
+    ]
+    ```
+
+### POST /addExpense
+
+-   **Description**: Endpoint for adding single expenses with the requirements of the body below, this also needs UserId to refer ownership of that expense
+-   **Request Body**:
+
+    ```json
+    {
+        "userId": "673812640e128833aa0143a2",
+        "expenseName": "Chocolate Cake",
+        "expenseDescription": "A Large Birthday Cake",
+        "amount": 200.24,
+        "date": "2024-11-17 15:00:00"
+    }
+    ```
+
+-   **Response**:
+
+    ```json
+    {
+        "message": "Expense added successfully",
+        "expense": {
+            "expenseName": "Chocolate Cake",
+            "expenseDescription": "A Large Birthday Cake",
+            "userId": "673812640e128833aa0143a2",
+            "amount": 200.24,
+            "date": "2024-11-17 15:00:00",
+            "categoryTitle": "No Category",
+            "updated_at": "2024-11-17T05:25:44.335000Z",
+            "created_at": "2024-11-17T05:25:44.335000Z",
+            "id": "67397e58b456efde3e01ce74"
+        }
+    }
+    ```
+
+### PATCH /updateExpense/{expenseName}
+
+-   **Description**: Updates the expense name, the end route is dynamic, craft the URL carefully with the desired expenseName from the user in submitting to this endpoint. Also Requiring user's Id to update their Expense Details, The PATCHING of the details are optional and if one detail is edited, not all is changed but the specified field is patched.
+-   **Sample URL Craft**: https://extr-fri730-704ba95d817c.herokuapp.com/api/updateExpense/Chocolate%20Cake
+-   **Request Body**:
+-   **Patching of 1 Field**:
+
+    ```json
+    {
+        "userId": "673812640e128833aa0143a2",
+        "categoryTitle": "Food Expense"
+    }
+    ```
+
+-   **Response**:
+
+    ```json
+    {
+        "message": "Expense updated successfully.",
+        "expense": {
+            "expenseName": "Birthday Cake",
+            "expenseDescription": "A Large Chocolate Cake",
+            "userId": "673812640e128833aa0143a2",
+            "amount": 500.23,
+            "date": "2024-11-17 15:00:00",
+            "categoryTitle": "Food Expense",
+            "updated_at": "2024-11-17T05:32:33.401000Z",
+            "created_at": "2024-11-17T05:25:44.335000Z",
+            "id": "67397e58b456efde3e01ce74"
+        }
+    }
+    ```
+
+-   **Patching of All Field**:
+
+    ```json
+    {
+        "userId": "673812640e128833aa0143a2",
+        "categoryTitle": "Food Expense",
+        "amount": 500.23,
+        "expenseName": "Birthday Cake",
+        "expenseDescription": "A Large Chocolate Cake"
+    }
+    ```
+
+-   **Response**:
+
+    ```json
+    {
+        "message": "Expense updated successfully.",
+        "expense": {
+            "expenseName": "Birthday Cake",
+            "expenseDescription": "A Large Chocolate Cake",
+            "userId": "673812640e128833aa0143a2",
+            "amount": 500.23,
+            "date": "2024-11-17 15:00:00",
+            "categoryTitle": "Food Expense",
+            "updated_at": "2024-11-17T05:32:33.401000Z",
+            "created_at": "2024-11-17T05:25:44.335000Z",
+            "id": "67397e58b456efde3e01ce74"
+        }
+    }
+    ```
+
+### DELETE /deleteExpense/{expenseName}
+
+-   **Description**:Deletes the expense from the user, carefully craft the url to handle the endpoint in order to make it successful
+-   **Sample URL Craft**: https://extr-fri730-704ba95d817c.herokuapp.com/api/deleteExpense/Birthday%20Cake
+-   **Request Body**:
+
+    ```json
+    {
+        "userId": "673812640e128833aa0143a2"
+    }
+    ```
+
+-   **Response**:
+
+    ```json
+    {
+        "message": "Expense deleted successfully."
+    }
+    ```
+
+## Template
+
+### HTTPRequest
+
+-   **Description**:
+-   **Request Body**:
+
+    ```json
+    {}
+    ```
+
+-   **Response**:
+
+    ```json
+    {}
     ```
