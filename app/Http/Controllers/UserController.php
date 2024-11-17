@@ -158,12 +158,12 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         if ($user->verified) {
-            return response()->json(['message' => 'User already verified.'], 200);
+            return redirect()->to('https://extrcust.vercel.app/resetPassword/failed');
         }
 
         $user->verified = true;
         $user->save();
 
-        return response()->json(['message' => 'Email verified successfully.'], 200);
+        return redirect()->to('https://extrcust.vercel.app/resetPassword/success');
     }
 }
