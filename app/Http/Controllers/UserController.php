@@ -158,12 +158,12 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         if ($user->verified) {
-            return redirect()->to('https://extrcust.vercel.app/resetPassword/failed');
+            return redirect()->to('https://extrcust.vercel.app/verifyStatus/failed');
         }
 
         $user->verified = true;
         $user->save();
 
-        return redirect()->to('https://extrcust.vercel.app/resetPassword/success');
+        return redirect()->to('https://extrcust.vercel.app/verifyStatus/success');
     }
 }
