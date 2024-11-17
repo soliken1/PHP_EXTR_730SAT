@@ -10,19 +10,13 @@ A user-friendly mobile application designed to help users effectively monitor an
 -   [Jay-r Olores](https://github.com/jayr-olores)
 -   [Kenneth James Macas](https://github.com/soliken1)
 
-## PHP Merged with Carzon's Group
+## PHP Members
 
 -   [Franz Ruie Morada](https://www.github.com/UnusualRuWei) - Alliance
 -   [Alvin John Araneta](https://www.github.com/ajiwnl) - Alliance
 -   [Edz Henissey Son](https://www.github.com/edzzson)
 -   [Jay-r Olores](https://github.com/jayr-olores) - Alliance
 -   [Kenneth James Macas](https://github.com/soliken1) - Alliance
--   [Joshriel Mive Carzon]() - Alliance
--   [Angel Dorothy Medez]()
--   [Art James Narboada](https://github.com/artnarboada) - Alliance
--   [Gheyl Aguilar]()
--   [Jelu Mari Cajipe](https://github.com/lxujjj)
--   [Loui Canete](https://github.com/loweehub)
 
 ## Android Repository Link
 
@@ -43,3 +37,18 @@ A user-friendly mobile application designed to help users effectively monitor an
 ## Routes Documentation
 
 [EXTR Documentation](Routes_Documentation.md)
+
+## Programming Languages and Platforms
+![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white) ![Java](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white) ![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
+
+## Frameworks
+![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)  
+
+## Libraries
+![Retrofit](https://img.shields.io/badge/Retrofit-3DDC84?style=for-the-badge&logo=android&logoColor=white)
+
+## Databases
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+
+## Tools and Deployment
+![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)  
