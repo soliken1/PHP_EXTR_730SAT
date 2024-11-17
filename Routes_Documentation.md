@@ -88,7 +88,7 @@
 
 ### POST /password/forgot
 
--   **Description**: Forgot Password Endpoint To Return A Route For Changing of Password, Token To Be Saved On Database and To Check If Route Is Expired
+-   **Description**: Forgot Password Endpoint To Return A Message and Sends an Email For Changing of Password, Token To Be Saved On Database and To Check If Route Is Expired
 -   **Request Body**:
     ```json
     {
@@ -98,7 +98,7 @@
 -   **Response**:
     ```json
     {
-        "resetRoute": "http://extr-fri730-704ba95d817c.herokuapp.com/api/password/reset/gwDXYPRwmRunxzf7D5SLk7OlhHv8wjKg4UqlmqNfypAYIi5wxQto2Gv7Lx5Z?email=kennethrex456@gmail.com"
+        "message": "Check your email to change your password"
     }
     ```
 
@@ -114,10 +114,10 @@
     }
     ```
 -   **Response**:
-    ```json
-    {
-        "message": "Password reset successfully."
-    }
+
+    ```
+    redirect to 'https://extrcust.vercel.app/verifyStatus/success'
+
     ```
 
 ### GET /verify-email/{id}
