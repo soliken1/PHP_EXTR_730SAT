@@ -36,7 +36,7 @@ Route::patch('/updateExpense/{expenseName}', [ExpenseController::class, 'updateU
 Route::delete('deleteExpense/{expenseName}', [ExpenseController::class, 'deleteUserExpense']);
 
 //Routes for Category
- //All Categories (No Conditional Parameters)
+//All Categories (No Conditional Parameters)
 Route::get('/categories', [CategoryController::class, 'getCategories']);
 //Get User's Categories (1 Parameter of userId)
 Route::post('/userCategories', [CategoryController::class, 'getUserCategories']);

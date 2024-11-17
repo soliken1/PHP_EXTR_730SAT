@@ -258,7 +258,7 @@
 
 ### PATCH /updateExpense/{expenseName}
 
--   **Description**: Updates the expense name, the end route is dynamic, craft the URL carefully with the desired expenseName from the user in submitting to this endpoint. Also Requiring user's Id to update their Expense Details, The PATCHING of the details are optional and if one detail is edited, not all is changed but the specified field is patched.
+-   **Description**: Updates the expense name, the end route is dynamic, craft the URL carefully with the desired expenseName from the user in submitting to this endpoint. Also Requiring user's Id to update their Expense Details, The PATCHING of the details are optional and if one detail is edited, not all is changed but the specified field is patched. The dynamic URL {expenseName} is the current or old expense name then on the body request is the new name for the expenseName.
 -   **Sample URL Craft**: https://extr-fri730-704ba95d817c.herokuapp.com/api/updateExpense/Chocolate%20Cake
 -   **Request Body**:
 -   **Patching of 1 Field**:
@@ -337,6 +337,133 @@
     ```json
     {
         "message": "Expense deleted successfully."
+    }
+    ```
+
+## Category Routing
+
+### GET /categories
+
+-   **Description**: Retrieves all categories without any parameters, returning an array of category objects
+-   **Request Body**:
+
+    ```json
+    {}
+    ```
+
+-   **Response**:
+
+    ```json
+    [
+        {
+            "userId": "67388c788b01de83690a6b53",
+            "categoryTitle": "Food",
+            "updated_at": "2024-11-17T04:45:04.756000Z",
+            "created_at": "2024-11-16T12:27:07.470000Z",
+            "id": "67388f9b3f4caa33d10530d2"
+        }
+    ]
+    ```
+
+### POST /userCategories
+
+-   **Description**: Returns the categories of the specified usuer being requested in the body, this will return an array of category objects
+-   **Request Body**:
+
+    ```json
+    {
+        "userId": "67388c788b01de83690a6b53"
+    }
+    ```
+
+-   **Response**:
+
+    ```json
+    [
+        {
+            "userId": "67388c788b01de83690a6b53",
+            "categoryTitle": "Food",
+            "updated_at": "2024-11-17T04:45:04.756000Z",
+            "created_at": "2024-11-16T12:27:07.470000Z",
+            "id": "67388f9b3f4caa33d10530d2"
+        }
+    ]
+    ```
+
+### POST /addCategory
+
+-   **Description**: Accepts a signle category request, handling the request that requires the below fields of the request.
+-   **Request Body**:
+
+    ```json
+    {
+        "userId": "673812640e128833aa0143a2",
+        "categoryTitle": "Bills Expense"
+    }
+    ```
+
+-   **Response**:
+
+    ```json
+    {
+        "message": "Category added successfully",
+        "category": {
+            "userId": "673812640e128833aa0143a2",
+            "categoryTitle": "Bills Expense",
+            "updated_at": "2024-11-17T07:14:02.156000Z",
+            "created_at": "2024-11-17T07:14:02.156000Z",
+            "id": "673997ba676a6649dc0c68a2"
+        }
+    }
+    ```
+
+### PATCH /updateCategory/{categoryTitle}
+
+-   **Description**: Endpoint for editing the category name, it will only accept the below (2) two fields in request body. Carefully craft the url in order to trigger and access the endpoint dynamically. When the category is updated, all of the expenses associated with the category will also be updated. The Dynamic URL {categoryTitle} then on the body is the new category Title.
+-   **Sample URL Craft**: https://extr-fri730-704ba95d817c.herokuapp.com/api/updateCategory/Food
+
+-   **Request Body**:
+
+    ```json
+    {
+        "userId": "67388c788b01de83690a6b53",
+        "categoryTitle": "Food Expense"
+    }
+    ```
+
+-   **Response**:
+
+    ```json
+    {
+        "message": "Category updated successfully, and associated expenses were updated.",
+        "category": {
+            "userId": "67388c788b01de83690a6b53",
+            "categoryTitle": "Food Expense",
+            "updated_at": "2024-11-17T07:15:49.018000Z",
+            "created_at": "2024-11-16T12:27:07.470000Z",
+            "id": "67388f9b3f4caa33d10530d2"
+        }
+    }
+    ```
+
+### DELETE /deleteCategory/{categoryTitle}
+
+-   **Description**: The route for deleting a category, this also needs a crafting of URL of dynamic categoryTitle which is the current categoryTitle of the user. When deleting a category all of the expenses associated with it, will be marked as No Category.
+-   **Sample URL Craft**: https://extr-fri730-704ba95d817c.herokuapp.com/api/deleteCategory/Food%20Expense
+
+-   **Request Body**:
+
+    ```json
+    {
+        "userId": "67388c788b01de83690a6b53"
+    }
+    ```
+
+-   **Response**:
+
+    ```json
+    {
+        "message": "Category deleted and associated expenses updated successfully."
     }
     ```
 
