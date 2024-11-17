@@ -134,7 +134,7 @@
 -   **Response**:
 
     ```
-    redirect to 'https://extrcust.vercel.app/verifyStatus/success'
+    In Email this will be shown a route to change the User's Password 'https://extrcust.vercel.app/resetPassword/{$token}/{$validated['email']}'
 
     ```
 
@@ -148,9 +148,7 @@
 -   **Response**:
 
     ```json
-    {
-        "verified": true
-    }
+    When clicking the verification this will be redirected and process that response as for success this is returned else the failed status is displayed 'https://extrcust.vercel.app/verifyStatus/success or /failed'
     ```
 
 ## Expenses Routing
