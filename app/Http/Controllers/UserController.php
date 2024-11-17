@@ -92,15 +92,15 @@ class UserController extends Controller
         $validated = $request->validate([
             'email' => 'required|email',
         ]);
-    
+
         $user = User::where('email', $validated['email'])->first();
-    
+
         if (!$user) {
             return response()->json(['message' => 'No user found with this email address.'], 404);
         }
-    
+
         $token = Str::random(60);
-    
+
         DB::table('password_resets')->updateOrInsert(
             ['email' => $user->email],
             [
@@ -108,12 +108,14 @@ class UserController extends Controller
                 'created_at' => now(),
             ]
         );
-    
-        // Create reset link for the API endpoint
-        $resetUrl = url("/api/password/reset/{$token}?email={$user->email}");
 
-    
-        return response()->json(['resetRoute' => $resetUrl], 200);
+        $resetUrl = url("https://extrcust.vercel.app/resetPassword/{$token}");
+
+        Mail::raw("Click this link to reset your password: {$resetUrl}", function ($message) use ($user) {
+            $message->to($user->email)->subject('Password Reset Request');
+        });
+        
+        return response()->json(['message' => 'Check your email to change your password'], 200);
     }
     
     public function resetPassword(Request $request, $token)
