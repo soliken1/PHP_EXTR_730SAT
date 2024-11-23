@@ -188,9 +188,9 @@ class UserController extends Controller
         // Handle profile image upload
         if ($request->hasFile('profileImage')) {
             // Delete the old profile image if it exists
-            if ($user->profileImage) {
+            if ($user->profileImage && Storage::exists($user->profileImage)) {
                 Storage::delete($user->profileImage);
-            }
+            }            
 
             // Store the new image and get its path
             $path = $request->file('profileImage')->store('profile-images', 'public'); // Save in 'storage/app/public/profile-images'
@@ -202,14 +202,15 @@ class UserController extends Controller
             $validated['password'] = bcrypt($validated['password']);
         }
 
+        $imageUrl = $user->profileImage ? asset('storage/app/public/profile-images/' . $user->profileImage) : null;
+
         $user->fill($validated);
         $user->save();
 
         return response()->json([
             'message' => 'User updated successfully.',
             'user' => $user,
-        ], 200)->header('Access-Control-Allow-Origin', '*')
-        ->header('Access-Control-Allow-Methods', 'PATCH, OPTIONS')
-        ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+            'profileImageUrl' => $imageUrl,
+        ], 201);
     }
 }
