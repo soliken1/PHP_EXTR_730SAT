@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {   public function getUsers()
@@ -53,6 +54,7 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => 'required|string|min:6',
             'verified' => 'sometimes|boolean',
+            'profileImage' => 'sometimes|string',
         ]);
 
         $existingUser = User::where('username', $validated['username'])->orWhere('email', $validated['email'])->first();
@@ -71,6 +73,7 @@ class UserController extends Controller
             'email' => $validated['email'],
             'password' => $hashedPassword,
             'verified' => $verifiedStatus,
+            'profileImage' => 'www.sampleprofile.com'
         ]);
 
         $verificationUrl = URL::temporarySignedRoute(
@@ -165,5 +168,46 @@ class UserController extends Controller
         $user->save();
 
         return redirect()->to('https://extrcust.vercel.app/verifyStatus/success');
+    }
+
+    public function updateUser(Request $request, $id) {
+        $validated = $request->validate([
+            'username' => 'sometimes|string|max:255',
+            'email' => 'sometimes|email',
+            'password' => 'sometimes|string|min:6|confirmed',
+            'verified' => 'sometimes|boolean',
+            'profileImage' => 'sometimes|file|image|max:2048', // Ensure it's a valid image file and limit size
+        ]);
+
+        $user = User::findOrFail($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found.'], 404);
+        }
+
+        // Handle profile image upload
+        if ($request->hasFile('profileImage')) {
+            // Delete the old profile image if it exists
+            if ($user->profileImage) {
+                Storage::delete($user->profileImage);
+            }
+
+            // Store the new image and get its path
+            $path = $request->file('profileImage')->store('profile-images', 'public'); // Save in 'storage/app/public/profile-images'
+            $validated['profileImage'] = $path;
+        }
+
+        // Hash password if it's being updated
+        if (!empty($validated['password'])) {
+            $validated['password'] = bcrypt($validated['password']);
+        }
+
+        $user->fill($validated);
+        $user->save();
+
+        return response()->json([
+            'message' => 'User updated successfully.',
+            'user' => $user,
+        ], 200);
     }
 }
