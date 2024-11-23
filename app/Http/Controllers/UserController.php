@@ -208,6 +208,8 @@ class UserController extends Controller
         return response()->json([
             'message' => 'User updated successfully.',
             'user' => $user,
-        ], 200);
+        ], 200)->header('Access-Control-Allow-Origin', '*')
+        ->header('Access-Control-Allow-Methods', 'PATCH, OPTIONS')
+        ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     }
 }
