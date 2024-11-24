@@ -158,7 +158,7 @@
 -   **Sample URL Craft**: https://extr-fri730-704ba95d817c.herokuapp.com/api/updateUser/6739892d8ab9f3627209a833?_method=PATCH
 -   **Request Body**: A Username Edit
 
-[!Change Username](routes_documentation/username.png)
+![Change Username](routes_documentation/username.png)
 
 -   **Response**:
 
