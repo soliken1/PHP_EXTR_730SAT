@@ -189,7 +189,6 @@ class UserController extends Controller
         }
 
         if ($request->hasFile('profileImage')) {
-            dd(config('cloudinary.url'));
             $cloudinary = new Cloudinary(config('cloudinary.url'));
 
             if ($user->profileImage) {
