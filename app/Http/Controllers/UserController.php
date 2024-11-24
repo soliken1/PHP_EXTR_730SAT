@@ -170,7 +170,8 @@ class UserController extends Controller
         return redirect()->to('https://extrcust.vercel.app/verifyStatus/success');
     }
 
-    public function updateUser(Request $request, $id) {
+    public function updateUser(Request $request, $id)
+    {
         $validated = $request->validate([
             'username' => 'sometimes|string|max:255',
             'email' => 'sometimes|email',
@@ -188,7 +189,7 @@ class UserController extends Controller
         if ($request->hasFile('profileImage')) {
             if ($user->profileImage && Storage::exists($user->profileImage)) {
                 Storage::delete($user->profileImage);
-            }            
+            }
 
             $path = $request->file('profileImage')->store('profile', 'public');
             $validated['profileImage'] = $path;
@@ -196,6 +197,18 @@ class UserController extends Controller
 
         if (!empty($validated['password'])) {
             $validated['password'] = bcrypt($validated['password']);
+        }
+
+        if (!empty($validated['email']) && $validated['email'] !== $user->email) {
+            $validated['verified'] = false;
+
+            $verificationUrl = URL::temporarySignedRoute(
+                'verification.verify',
+                now()->addMinutes(60),
+                ['id' => $user->id]
+            );
+
+            $user->notify(new VerifyEmail($verificationUrl));
         }
 
         $user->fill($validated);
@@ -207,6 +220,6 @@ class UserController extends Controller
             'message' => 'User updated successfully.',
             'user' => $user,
             'profileImageUrl' => $imageUrl,
-        ], 201);
+        ], 200);
     }
 }
