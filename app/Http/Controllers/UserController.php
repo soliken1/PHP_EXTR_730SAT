@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Storage;
+use Cloudinary\Cloudinary;
+
 
 class UserController extends Controller
 {   public function getUsers()
@@ -187,12 +189,25 @@ class UserController extends Controller
         }
 
         if ($request->hasFile('profileImage')) {
-            if ($user->profileImage && Storage::exists($user->profileImage)) {
-                Storage::delete($user->profileImage);
+            dd(config('cloudinary.url'));
+            $cloudinary = new Cloudinary(config('cloudinary.url'));
+
+            if ($user->profileImage) {
+                $publicId = pathinfo($user->profileImage, PATHINFO_FILENAME);
+                $cloudinary->uploadApi()->destroy($publicId);
             }
 
-            $path = $request->file('profileImage')->store('profile', 'public');
-            $validated['profileImage'] = $path;
+            $uploadedFileUrl = $cloudinary->uploadApi()->upload(
+                $request->file('profileImage')->getRealPath(),
+                [
+                    'folder' => 'profile-images',
+                    'public_id' => $user->id,
+                    'overwrite' => true,
+                    'resource_type' => 'image',
+                ]
+            )['secure_url'];
+
+            $validated['profileImage'] = $uploadedFileUrl;
         }
 
         if (!empty($validated['password'])) {
@@ -214,12 +229,10 @@ class UserController extends Controller
         $user->fill($validated);
         $user->save();
 
-        $imageUrl = $user->profileImage ? asset('storage/' . $user->profileImage) : null;
-
         return response()->json([
             'message' => 'User updated successfully.',
             'user' => $user,
-            'profileImageUrl' => $imageUrl,
+            'profileImageUrl' => $user->profileImage,
         ], 201);
     }
 }
