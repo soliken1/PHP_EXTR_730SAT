@@ -201,7 +201,7 @@ class UserController extends Controller
         $user->fill($validated);
         $user->save();
 
-        $imageUrl = $user->profileImage ? asset('storage/app/public/' . $user->profileImage) : null;
+        $imageUrl = $user->profileImage ? asset('storage/profile/' . $user->profileImage) : null;
 
         return response()->json([
             'message' => 'User updated successfully.',
