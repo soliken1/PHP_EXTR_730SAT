@@ -152,7 +152,7 @@
     When clicking the verification this will be redirected and process that response as for success this is returned else the failed status is displayed 'https://extrcust.vercel.app/verifyStatus/success or /failed'
     ```
 
-### POST /updateUser/{id}?\_method=PATCH
+### POST /updateUser/{id}
 
 -   **Description**: In order to update the user's details, first is to carefully craft the Route, the route is a patch but in trying to request for an update for the user, make sure to add on the end of the userId a ?\_method=PATCH or any way that makes the REQUEST POST with a method or Params of PATCH to accept Images. This is a Postman handling of that issue where it cannot update if it is a form-data request. Since it is a PATCH method all of the fields are optional and can come with any request bodies. As for the Profile Images it will be saved on Cloudinary since Heroku has an Ephemeral Filesystem, which all of the saved images would disappear every redeployment. As for the password it needs to have a confirm password field to update for the password and for the email, when changed the verification status would be again set to false for verification.
 -   **Sample URL Craft**: https://extr-fri730-704ba95d817c.herokuapp.com/api/updateUser/6739892d8ab9f3627209a833?_method=PATCH
@@ -166,16 +166,61 @@
     {
         "message": "User updated successfully.",
         "user": {
-            "username": "Flandre",
-            "email": "xobefox315@anypng.com",
-            "password": "$2y$12$I0H69NGHC9zwduAuTh.CYeMPihR84taEOnDSZljw3jBzqATVOuKRG",
-            "verified": true,
-            "updated_at": "2024-11-24T05:30:12.880000Z",
-            "created_at": "2024-11-17T06:11:57.162000Z",
-            "profileImage": "https://res.cloudinary.com/dwnawhcfm/image/upload/v1732425644/profile-images/6739892d8ab9f3627209a833.jpg",
-            "id": "6739892d8ab9f3627209a833"
-        },
-        "profileImageUrl": "https://res.cloudinary.com/dwnawhcfm/image/upload/v1732425644/profile-images/6739892d8ab9f3627209a833.jpg"
+            "username": "Flandre"
+            /// Other Irrelevant Responses
+        }
+    }
+    ```
+
+-   **Request Body**: A Profile Picture Edit
+
+![Change Profile](routes_documentation/profile.png)
+
+-   **Response**:
+
+    ```json
+    {
+        "message": "User updated successfully.",
+        "user": {
+            /// Other Irrelevant Responses
+            "profileImage": "https://res.cloudinary.com/dwnawhcfm/image/upload/v1732425644/profile-images/6739892d8ab9f3627209a833.jpg"
+            /// Other Irrelevant Responses
+        }
+    }
+    ```
+
+-   **Request Body**: A Change Password Edit
+
+![Change Password](routes_documentation/password.png)
+
+-   **Response**:
+
+    ```json
+    {
+        "message": "User updated successfully.",
+        "user": {
+            /// Other Irrelevant Responses
+            "password": "$2y$12$xU3L6Wj7ifao0iCKUenOQezjiUKOKsACHS1aA1/DVkX8MwYxGecZW"
+            /// Other Irrelevant Responses
+        }
+    }
+    ```
+
+-   **Request Body**: A Change Email Edit
+
+![Change Password](routes_documentation/email.png)
+
+-   **Response**:
+
+    ```json
+    {
+        "message": "User updated successfully.",
+        "user": {
+            /// Other Irrelevant Responses
+            "email": "jemrowynn506@gmail.com",
+            "verified": false
+            /// Other Irrelevant Responses
+        }
     }
     ```
 
