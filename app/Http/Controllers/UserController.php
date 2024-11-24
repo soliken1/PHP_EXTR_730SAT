@@ -51,7 +51,7 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'username' => 'required|string|max:255',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email,',
             'password' => 'required|string|min:6',
             'verified' => 'sometimes|boolean',
             'profileImage' => 'sometimes|string',
@@ -174,7 +174,7 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'username' => 'sometimes|string|max:255',
-            'email' => 'sometimes|email',
+            'email' => 'sometimes|email|unique:users,email,',
             'password' => 'sometimes|string|min:6|confirmed',
             'verified' => 'sometimes|boolean',
             'profileImage' => 'sometimes|file|image|max:2048',
