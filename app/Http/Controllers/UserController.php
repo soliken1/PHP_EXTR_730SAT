@@ -220,6 +220,6 @@ class UserController extends Controller
             'message' => 'User updated successfully.',
             'user' => $user,
             'profileImageUrl' => $imageUrl,
-        ], 200);
+        ], 201);
     }
 }
