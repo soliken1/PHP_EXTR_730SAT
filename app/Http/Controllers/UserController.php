@@ -176,7 +176,7 @@ class UserController extends Controller
             'email' => 'sometimes|email',
             'password' => 'sometimes|string|min:6|confirmed',
             'verified' => 'sometimes|boolean',
-            'profileImage' => 'sometimes|file|image|max:2048', // Ensure it's a valid image file and limit size
+            'profileImage' => 'sometimes|file|image|max:2048',
         ]);
 
         $user = User::findOrFail($id);
@@ -185,27 +185,23 @@ class UserController extends Controller
             return response()->json(['message' => 'User not found.'], 404);
         }
 
-        // Handle profile image upload
         if ($request->hasFile('profileImage')) {
-            // Delete the old profile image if it exists
             if ($user->profileImage && Storage::exists($user->profileImage)) {
                 Storage::delete($user->profileImage);
             }            
 
-            // Store the new image and get its path
-            $path = $request->file('profileImage')->store('profile-images', 'public'); // Save in 'storage/app/public/profile-images'
+            $path = $request->file('profileImage')->store('profile', 'public');
             $validated['profileImage'] = $path;
         }
 
-        // Hash password if it's being updated
         if (!empty($validated['password'])) {
             $validated['password'] = bcrypt($validated['password']);
         }
 
-        $imageUrl = $user->profileImage ? asset('storage/app/public/profile-images/' . $user->profileImage) : null;
-
         $user->fill($validated);
         $user->save();
+
+        $imageUrl = $user->profileImage ? asset('storage/app/public/' . $user->profileImage) : null;
 
         return response()->json([
             'message' => 'User updated successfully.',
