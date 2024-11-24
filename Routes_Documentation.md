@@ -18,6 +18,7 @@
     {
         "400": "Invalid Request Inside of Requested Body",
         "404": "Request Was Not Found",
+        "405": "Incorrect Method or Method Is Not Allowed",
         "409": "Request Is Already Existing In The Database"
     }
     ```
