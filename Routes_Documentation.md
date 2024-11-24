@@ -302,6 +302,7 @@
     {
         "userId": "673812640e128833aa0143a2",
         "expenseName": "Chocolate Cake",
+        "categoryTitle:": "Food Category",
         "expenseDescription": "A Large Birthday Cake",
         "amount": 200.24,
         "date": "2024-11-17 15:00:00"
@@ -319,7 +320,7 @@
             "userId": "673812640e128833aa0143a2",
             "amount": 200.24,
             "date": "2024-11-17 15:00:00",
-            "categoryTitle": "No Category",
+            "categoryTitle": "Food Category",
             "updated_at": "2024-11-17T05:25:44.335000Z",
             "created_at": "2024-11-17T05:25:44.335000Z",
             "id": "67397e58b456efde3e01ce74"

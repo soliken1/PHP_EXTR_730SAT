@@ -27,7 +27,7 @@ class ExpenseController extends Controller
         $validated = $request->validate([
             'expenseName' => 'required|string|max:255',
             'expenseDescription' => 'required|string|max:255',
-            'categoryTitle' => 'sometimes|string|max:255|nullable',
+            'categoryTitle' => 'required|string|max:255|nullable',
             'userId' => 'required|string',
             'amount' => 'required|numeric|min:0',
             'date' => 'required|date_format:Y-m-d H:i:s',
@@ -60,7 +60,7 @@ class ExpenseController extends Controller
             'userId' => 'required|string',
             'expenseName' => 'sometimes|string|max:255',
             'expenseDescription' => 'sometimes|string|max:255',
-            'categoryTitle' => 'sometimes|string|max:255',
+            'categoryTitle' => 'required|string|max:255|min:3',
             'amount' => 'sometimes|numeric|min:0',
             'date' => 'sometimes|date_format:Y-m-d H:i:s',
         ]);
