@@ -27,7 +27,7 @@ class ExpenseController extends Controller
 
     public function addUserExpense(Request $request) {
         $validated = $request->validate([
-            'expenseName' => 'required|string|max:255',
+            'expenseName' => 'sometimes|string|max:255',
             'expenseDescription' => 'sometimes|string|max:255',
             'categoryTitle' => 'sometimes|string|max:255|',
             'userId' => 'sometimes|string',
