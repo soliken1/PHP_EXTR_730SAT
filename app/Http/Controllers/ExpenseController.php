@@ -60,7 +60,7 @@ class ExpenseController extends Controller
             'userId' => 'required|string',
             'expenseName' => 'sometimes|string|max:255',
             'expenseDescription' => 'sometimes|string|max:255',
-            'categoryTitle' => 'required|string|max:255|min:3',
+            'categoryTitle' => 'sometimes|string|max:255|min:3',
             'amount' => 'sometimes|numeric|min:0',
             'date' => 'sometimes|date_format:Y-m-d H:i:s',
         ]);
