@@ -74,6 +74,16 @@ class ExpenseController extends Controller
         if (!$expense) {
             return response()->json(['message' => 'Expense not Found.'], 404);
         }
+
+        if (!empty($validated['expenseName']) && $validated['expenseName'] !== $expenseName) {
+            $duplicate = Expense::where('expenseName', $validated['expenseName'])
+                                ->where('userId', $validated['userId'])
+                                ->exists();
+
+            if ($duplicate) {
+                return response()->json(['message' => 'Expense name already exists.'], 409);
+            }
+        }
     
         $expense->fill($validated);
         $expense->save();
