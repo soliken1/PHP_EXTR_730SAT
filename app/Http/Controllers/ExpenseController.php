@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Expense;
 use Illuminate\Http\Request;
+use App\Exceptions\CustomException;
+
 
 class ExpenseController extends Controller
 {
@@ -26,27 +28,40 @@ class ExpenseController extends Controller
     public function addUserExpense(Request $request) {
         $validated = $request->validate([
             'expenseName' => 'required|string|max:255',
-            'expenseDescription' => 'required|string|max:255',
-            'categoryTitle' => 'required|string|max:255|nullable',
-            'userId' => 'required|string',
-            'amount' => 'required|numeric|min:0',
-            'date' => 'required|date_format:Y-m-d H:i:s',
+            'expenseDescription' => 'sometimes|string|max:255',
+            'categoryTitle' => 'sometimes|string|max:255|',
+            'userId' => 'sometimes|string',
+            'amount' => 'sometimes|numeric|min:0',
+            'date' => 'sometimes|date_format:Y-m-d H:i:s',
         ]);
 
+
+        // Check for empty required fields
+        $requiredFields = ['expenseName', 'expenseDescription', 'userId', 'amount', 'date'];
+        foreach ($requiredFields as $field) {
+            if (!isset($validated[$field]) || empty($validated[$field])) {
+                throw new CustomException(ucfirst($field) . ' is required and cannot be empty.', 400);
+            }
+        }
+    
+        // Check for existing expense
         $existingExpense = Expense::where('expenseName', $validated['expenseName'])
                                     ->where('userId', $validated['userId'])
                                     ->first();
-
+    
         if ($existingExpense) {
             return response()->json([
                 'message' => 'Expense already exists.',
             ], 409);
         }
-
+    
+        // Handle optional categoryTitle
         $validated['amount'] = $validated['amount'] ?? 0.00;
         if (empty($validated['categoryTitle'])) {
             $validated['categoryTitle'] = 'No Category';
         }
+    
+        // Create the expense
         $expense = Expense::create($validated);
     
         return response()->json([
@@ -54,7 +69,7 @@ class ExpenseController extends Controller
             'expense' => $expense,
         ], 201);
     }
-
+    
     public function updateUserExpense(Request $request, $expenseName) {
         $validated = $request->validate([
             'userId' => 'required|string',
