@@ -34,6 +34,10 @@ A user-friendly mobile application designed to help users effectively monitor an
 
 [EXTR Testcases Documentation](https://docs.google.com/document/d/1DnOizLAk7B-m5pID0SRbnKqakzEq-Cv1-M2_ePGiamw/edit?usp=sharing)
 
+## Documentation v1
+
+[EXTR Documentation](https://docs.google.com/document/d/13_XFvjMy-EvWEGbCuuIFWNnsSVNGCSdF-5YcDfk65iY/edit?usp=sharing)
+
 ## Routes Documentation
 
 [EXTR Documentation](Routes_Documentation.md)
