@@ -66,6 +66,16 @@ class BudgetController extends Controller
             return response()->json(['message' => 'Budget not Found.'], 404);
         }
 
+        if (!empty($validated['categoryTitle']) && $validated['categoryTitle'] !== $categoryTitle) {
+            $duplicate = Budget::where('categoryTitle', $validated['categoryTitle'])
+                                ->where('userId', $validated['userId'])
+                                ->exists();
+
+            if ($duplicate) {
+                return response()->json(['message' => 'Budget For This Category Already Exists.'], 409);
+            }
+        }
+
         $budget->fill($validated);
         $budget->save();
 

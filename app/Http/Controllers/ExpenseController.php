@@ -81,7 +81,7 @@ class ExpenseController extends Controller
                                 ->exists();
 
             if ($duplicate) {
-                return response()->json(['message' => 'Expense name already exists.'], 409);
+                return response()->json(['message' => 'Expense Name Already Exists.'], 409);
             }
         }
     

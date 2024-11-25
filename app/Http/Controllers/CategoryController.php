@@ -64,6 +64,17 @@ class CategoryController extends Controller
 
         if (!$category) {
             return response()->json(['message' => 'Category not Found.'], 404);
+            
+        }
+
+        if (!empty($validated['categoryTitle']) && $validated['categoryTitle'] !== $categoryTitle) {
+            $duplicate = Category::where('categoryTitle', $validated['categoryTitle'])
+                                ->where('userId', $validated['userId'])
+                                ->exists();
+
+            if ($duplicate) {
+                return response()->json(['message' => 'Category Title Already Exists.'], 409);
+            }
         }
 
         $category->fill($validated);
