@@ -27,22 +27,22 @@ class ExpenseController extends Controller
 
     public function addUserExpense(Request $request) {
         $validated = $request->validate([
-            'expenseName' => 'sometimes|string|max:255',
-            'expenseDescription' => 'sometimes|string|max:255',
-            'categoryTitle' => 'sometimes|string|max:255|',
-            'userId' => 'sometimes|string',
-            'amount' => 'sometimes|numeric|min:0',
-            'date' => 'sometimes|date_format:Y-m-d H:i:s',
+            'expenseName' => 'sometimes|string|max:255|nullable',
+            'expenseDescription' => 'sometimes|string|max:255|nullable',
+            'categoryTitle' => 'sometimes|string|max:255|nullable',
+            'userId' => 'sometimes|string|nullable',
+            'amount' => 'sometimes|numeric|min:0|nullable',
+            'date' => 'sometimes|date_format:Y-m-d H:i:s|nullable',
         ]);
 
 
-        // Check for empty required fields
-        $requiredFields = ['expenseName', 'expenseDescription', 'userId', 'amount', 'date'];
-        foreach ($requiredFields as $field) {
-            if (!isset($validated[$field]) || empty($validated[$field])) {
-                throw new CustomException(ucfirst($field) . ' is required and cannot be empty.', 400);
-            }
-        }
+        // // Check for empty required fields
+        // $requiredFields = ['expenseName', 'expenseDescription', 'userId', 'amount', 'date'];
+        // foreach ($requiredFields as $field) {
+        //     if (!isset($validated[$field]) || empty($validated[$field])) {
+        //         throw new CustomException(ucfirst($field) . ' is required and cannot be empty.', 400);
+        //     }
+        // }
     
         // Check for existing expense
         $existingExpense = Expense::where('expenseName', $validated['expenseName'])
@@ -53,12 +53,6 @@ class ExpenseController extends Controller
             return response()->json([
                 'message' => 'Expense already exists.',
             ], 409);
-        }
-    
-        // Handle optional categoryTitle
-        $validated['amount'] = $validated['amount'] ?? 0.00;
-        if (empty($validated['categoryTitle'])) {
-            $validated['categoryTitle'] = 'No Category';
         }
     
         // Create the expense
